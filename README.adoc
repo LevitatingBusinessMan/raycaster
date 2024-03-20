@@ -1,0 +1,3 @@
+# Raycaster
+
+An OpenGL raycasting engine via SDL
