@@ -1,0 +1,34 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-I/usr/include/SDL2",
+      "-D_REENTRANT",
+      "-o",
+      "raycaster",
+      "raycaster.cpp"
+    ],
+    "directory": "/home/rein/projects/raycaster",
+    "file": "/home/rein/projects/raycaster/raycaster.cpp",
+    "output": "/home/rein/projects/raycaster/raycaster"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-I/usr/include/SDL2",
+      "-D_REENTRANT",
+      "-o",
+      "raycaster",
+      "gfx.cpp"
+    ],
+    "directory": "/home/rein/projects/raycaster",
+    "file": "/home/rein/projects/raycaster/gfx.cpp",
+    "output": "/home/rein/projects/raycaster/raycaster"
+  }
+]
