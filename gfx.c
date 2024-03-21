@@ -57,7 +57,7 @@ void cls() {
 }
 
 void set_color(int color, bool darkened) {
-	float value = darkened ? 0.7 : 1.0;
+	float value = darkened ? 0.5 : 1.0;
 	switch (color) {
 		case 1:
 			glColor3f(value, 0.0, 0.0);

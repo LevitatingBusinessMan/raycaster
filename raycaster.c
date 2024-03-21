@@ -1,10 +1,11 @@
+#include "SDL_events.h"
 #include "map.h"
 #include "gfx.h"
 #include <stdbool.h>
 #include <stdio.h>
 
 static double pos_x = 16, pos_y = 29; // the current position of the player
-static double dir_x = 0, dir_y = 1; // the direction the player is looking at
+static double dir_x = 0, dir_y = -1; // the direction the player is looking at
 static double plane_x, plane_y; // the camera plane, perpendicular to the dir vector but shorter (basically the right side of it)
 
 void main_loop();
@@ -36,11 +37,25 @@ void handle_events(bool* quit) {
 		if (e.type == SDL_QUIT) {
 			*quit = true;
 		}
+		switch (e.type) {
+			case SDL_QUIT:
+				*quit = true;
+				break;
+			case SDL_KEYDOWN:
+				switch (e.key.keysym.sym) {
+					case SDLK_UP:
+						pos_x += dir_x;
+						pos_y += dir_y;
+						break;
+				}
+				break;
+		}
 	}
 }
 
 void main_loop() {
 	bool quit = false;
+
 	while (!quit) {
 		handle_events(&quit);
 
@@ -78,7 +93,7 @@ void main_loop() {
 				dda_step_x = -1;
 				side_dist_x = (pos_x - map_x) * delta_dist_x;
 			} else {
-				dda_step_x = -1;
+				dda_step_x = 1;
 				side_dist_x = (map_x - pos_x + 1.0) * delta_dist_x;
 			}
 
@@ -86,7 +101,7 @@ void main_loop() {
 				dda_step_y = -1;
 				side_dist_y = (pos_y - map_y) * delta_dist_y;
 			} else {
-				dda_step_y = -1;
+				dda_step_y = 1;
 				side_dist_y = (map_y - pos_y + 1.0) * delta_dist_y;
 			}
 
@@ -97,16 +112,19 @@ void main_loop() {
 				// will the x-side or the y-side hit first?
 				if (side_dist_x < side_dist_y) {
 					side_dist_x += delta_dist_x;
-					map_y += dda_step_y;
+					map_x += dda_step_x;
 					side_was_x = true;
 				} else {
 					side_dist_y += delta_dist_y;
-					map_x += dda_step_x;
+					map_y += dda_step_y;
 					side_was_x = false;
 				}
 				// do we encounter a wall/object?
 				if (world_map[map_y][map_x] > 0) break;
 			}
+
+			// printf("hit x%d y%d (%d) xplane: (%f), ray: (x%f y%f) delta: (x%f y%f)\n",
+			// map_x, map_y, screen_x, camera_x, ray_dir_x, ray_dir_y, delta_dist_x, delta_dist_y);
 
 			// the distance to the hit x-side or y-side
 			// perpendicular from the camera plane (avoid fisheye)
@@ -118,6 +136,6 @@ void main_loop() {
 			line(screen_x, line_height, world_map[map_y][map_x], side_was_x);
 		}
 		draw();
-		//cls();
+		cls();
 	}
 }
