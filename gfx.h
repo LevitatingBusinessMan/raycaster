@@ -9,3 +9,9 @@ extern SDL_Window* window;
 extern SDL_GLContext gl_context;
 
 bool init_win();
+void line(int x, int h, int color, bool darkened);
+void set_color(int color, bool darkened);
+void cls();
+void draw();
+void cleanup();
+
